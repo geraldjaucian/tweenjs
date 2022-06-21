@@ -1,0 +1,27 @@
+{
+  "name": "@porkchappie/tweenjs",
+  "version": "1.0.0",
+  "description": "simple tweening for js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/geraldjaucian/tweenjs.git"
+  },
+  "keywords": [
+    "tween",
+    "tweenjs",
+    "tween-js",
+    "es6",
+    "javascript",
+    "js"
+  ],
+  "author": "Gerald Jaucian",
+  "license": "The Unlicense",
+  "bugs": {
+    "url": "https://github.com/geraldjaucian/tweenjs/issues"
+  },
+  "homepage": "https://github.com/geraldjaucian/tweenjs#readme"
+}
