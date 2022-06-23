@@ -14,32 +14,41 @@ export const exp_interpolation = t => t * t
  *  tween.cancel()
  * ```
  */
-export default function({ duration = 400, target, onstart, onupdate, onend, oncancel, interpolation }) {
-  const start = document.timeline.currentTime
+export default function ({ duration = 400, target, onstart, onupdate, onend, oncancel, interpolation }) {
   let animId;
+  let run = true
   var ret = {
     value: 0,
     ellapsed: 0,
     cancel() {
+      run = false
       cancelAnimationFrame(animId)
+      animId = undefined
       oncancel?.(ret)
     }
   }
+  const start = document.timeline.currentTime
   function animate() {
-    animId = requestAnimationFrame(_ => {
-      ret.ellapsed = Math.min(duration, document.timeline.currentTime - start)
-      if (target) ret.value = (interpolation || linear_interpolation)(ret.ellapsed / duration) * target
-      onupdate?.(ret)
-      if (ret.ellapsed < duration) {
-        animate()
-      } else {
-        onend?.(ret)
+    if (duration) {
+      animId = requestAnimationFrame(_ => {
         animId = undefined
-      }
-    })
+        ret.ellapsed = Math.min(duration, document.timeline.currentTime - start)
+        if (target) ret.value = (interpolation || linear_interpolation)(ret.ellapsed / duration) * target
+        onupdate?.(ret)
+        if (run) {
+          if (ret.ellapsed < duration) {
+            animate()
+          } else {
+            onend?.(ret)
+          }
+        }
+      })
+    } else {
+      run && onupdate?.(ret)
+      run && onend?.(ret)
+    }
   }
-  animate()
   onstart?.(ret)
-  onupdate?.(ret)
+  run && animate()
   return ret
 }
